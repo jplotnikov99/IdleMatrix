@@ -1,4 +1,5 @@
 #include "main_window.hpp"
+#include "increment_animations.hpp"
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -23,8 +24,6 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
   QFont bigFont = painter.font();
   bigFont.setPointSize(48);
-  QFont smallFont = painter.font();
-  smallFont.setPointSize(28);
 
   QRectF fullRect = rect();
   QPointF center = fullRect.center();
@@ -36,50 +35,20 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     return;
   }
 
+  IncrementScalar incrementScalar(center, incrementAnimator->progress(),
+                                  incrementAnimator->number,
+                                  incrementAnimator->pendingNumber);
+
   const qreal spread = 80.0;
   qreal progress = incrementAnimator->progress();
   int number = incrementAnimator->number;
   int pending = incrementAnimator->pendingNumber;
 
-  if (progress < 0.5) {
-    qreal t = progress / 0.5;
-
-    qreal oldX = center.x() - t * spread;
-    painter.setFont(bigFont);
-    painter.setOpacity(1.0);
-    painter.drawText(QRectF(oldX - 100, center.y() - 50, 200, 100),
-                     Qt::AlignCenter, QString::number(number));
-
-    painter.setOpacity(t);
-    painter.drawText(QRectF(center.x() - 100, center.y() - 50, 200, 100),
-                     Qt::AlignCenter, "+");
-
-    painter.setFont(smallFont);
-    painter.drawText(QRectF(center.x() - 100, center.y() - 130, 200, 80),
-                     Qt::AlignCenter, "1");
-  } else {
-    qreal t = (progress - 0.5) / 0.5;
-
-    qreal oldX = (center.x() - spread) + t * spread;
-    painter.setFont(bigFont);
-    painter.setOpacity(1.0 - t);
-    painter.drawText(QRectF(oldX - 100, center.y() - 50, 200, 100),
-                     Qt::AlignCenter, QString::number(number));
-
-    painter.setOpacity(1.0 - t);
-    painter.drawText(QRectF(center.x() - 100, center.y() - 50, 200, 100),
-                     Qt::AlignCenter, "+");
-
-    qreal oneY = (center.y() - 130) + t * 80;
-    painter.setFont(smallFont);
-    painter.setOpacity(1.0 - t);
-    painter.drawText(QRectF(center.x() - 100, oneY, 200, 80), Qt::AlignCenter,
-                     "1");
-
-    painter.setFont(bigFont);
-    painter.setOpacity(t);
-    painter.drawText(QRectF(center.x() - 100, center.y() - 50, 200, 100),
-                     Qt::AlignCenter, QString::number(pending));
+  for (auto &character : incrementScalar.characters) {
+    painter.setFont(QFont(painter.font().family(), character.fontSize));
+    painter.setOpacity(character.opacity);
+    painter.drawText(QRectF(character.x, character.y, 200, 100),
+                     Qt::AlignCenter, character.text);
   }
 
   painter.setOpacity(1.0);
