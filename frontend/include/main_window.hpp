@@ -12,6 +12,9 @@ public:
 
   ~MainWindow() = default;
 
+public slots:
+  void onStateUpdated();
+
 protected:
   void paintEvent(QPaintEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;

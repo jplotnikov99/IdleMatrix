@@ -11,10 +11,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
           [this]() { update(); });
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event) {
-  if (event->button() == Qt::LeftButton) {
-    incrementAnimator->increment();
-  }
+void MainWindow::onStateUpdated() {
+  incrementAnimator->increment();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
