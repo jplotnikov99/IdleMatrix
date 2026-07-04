@@ -1,4 +1,5 @@
 #include "gameloop.hpp"
+#include "gamestate.hpp"
 #include "main_window.hpp"
 #include <QApplication>
 #include <QThread>
@@ -6,8 +7,10 @@
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
 
+  GameState gameState;
+
   QThread gameLoopThread;
-  GameLoop gameLoop;
+  GameLoop gameLoop(gameState);
   gameLoop.moveToThread(&gameLoopThread);
 
   MainWindow window;

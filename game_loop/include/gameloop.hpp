@@ -1,13 +1,15 @@
 #pragma once
 
+#include "gamestate.hpp"
+#include <QElapsedTimer>
 #include <QObject>
 #include <QTimer>
-#include <QElapsedTimer>
 
 class GameLoop : public QObject {
   Q_OBJECT
 public:
-  explicit GameLoop(QObject *parent = nullptr) : QObject(parent) {}
+  explicit GameLoop(GameState &state, QObject *parent = nullptr)
+      : QObject(parent), gameState(state) {}
   ~GameLoop() = default;
 
 public slots:
@@ -16,9 +18,10 @@ public slots:
   void tick();
 
 signals:
-  void stateUpdated();
+  void stateUpdated(const GameState &state);
 
 private:
+  GameState &gameState;
   QTimer *timer = nullptr;
   QElapsedTimer elapsedTimer;
 };

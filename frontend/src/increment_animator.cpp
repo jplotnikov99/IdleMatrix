@@ -22,8 +22,9 @@ void IncrementAnimator::setProgress(qreal progress)
     emit animationStep();
 }
 
-void IncrementAnimator::increment()
+void IncrementAnimator::increment(const GameState &state)
 {
+    m_animation->setDuration(state.incrementDelayInMs);
     if (isAnimating) {
         // snap current animation to completion, then chain the next one
         m_animation->stop();

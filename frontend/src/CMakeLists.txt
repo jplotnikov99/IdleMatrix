@@ -15,4 +15,4 @@ target_include_directories(frontend PUBLIC
     ${frontend_include_dir} 
 )
 
-target_link_libraries(frontend PRIVATE Qt6::Widgets)
+target_link_libraries(frontend PRIVATE backend Qt6::Widgets)

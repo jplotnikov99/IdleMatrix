@@ -11,4 +11,4 @@ target_include_directories(gameLoop PUBLIC
     ${gameLoop_include_dir} 
 )
 
-target_link_libraries(gameLoop PRIVATE Qt6::Widgets)
+target_link_libraries(gameLoop PRIVATE backend Qt6::Widgets)

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "gamestate.hpp"
 #include <QObject>
 #include <QPropertyAnimation>
 
-class IncrementAnimator: public QObject {
+class IncrementAnimator : public QObject {
   Q_OBJECT
   Q_PROPERTY(qreal progress READ progress WRITE setProgress)
 public:
@@ -20,7 +21,7 @@ public:
   ~IncrementAnimator() = default;
 
 public slots:
-  void increment();
+  void increment(const GameState &state);
 
 signals:
   void animationStep(); // fired every time something visual needs to change

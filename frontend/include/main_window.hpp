@@ -1,6 +1,7 @@
 #pragma once
 
 #include "increment_animator.hpp"
+#include "gamestate.hpp"
 #include <QPropertyAnimation>
 #include <QWidget>
 
@@ -13,11 +14,10 @@ public:
   ~MainWindow() = default;
 
 public slots:
-  void onStateUpdated();
+  void onStateUpdated(const GameState &state);
 
 protected:
   void paintEvent(QPaintEvent *event) override;
-  void mousePressEvent(QMouseEvent *event) override;
 
 private:
   IncrementAnimator *incrementAnimator;

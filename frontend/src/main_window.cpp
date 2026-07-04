@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
           [this]() { update(); });
 }
 
-void MainWindow::onStateUpdated() {
-  incrementAnimator->increment();
+void MainWindow::onStateUpdated(const GameState &state) {
+  incrementAnimator->increment(state);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
