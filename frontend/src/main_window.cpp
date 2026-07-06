@@ -6,13 +6,21 @@
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   resize(1000, 1000);
   setStyleSheet("background-color: #222; color: white; font-family: Arial;");
+
   incrementAnimator = new IncrementAnimator(this);
   connect(incrementAnimator, &IncrementAnimator::animationStep, this,
           [this]() { update(); });
+
+  upgradeAdditionButton = new QPushButton("+1\n10", this);
+  upgradeAdditionButton->setGeometry(20, 20, 100, 50);
+  upgradeAdditionButton->setStyleSheet("background-color: #444; color: white; "
+                                       "font-size: 16px; border-radius: 5px;");
+  upgradeAdditionButton->hide();
 }
 
 void MainWindow::onStateUpdated(const GameState &state) {
-  incrementAnimator->increment(state);
+  currentGameState = state;
+  incrementAnimator->increment(currentGameState);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
@@ -29,18 +37,15 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   if (!incrementAnimator->isAnimating) {
     painter.setFont(bigFont);
     painter.drawText(fullRect, Qt::AlignCenter,
-                     QString::number(incrementAnimator->number));
+                     QString::number(currentGameState.currentNumber));
     return;
   }
 
   IncrementScalar incrementScalar(center, incrementAnimator->progress(),
-                                  incrementAnimator->number,
-                                  incrementAnimator->pendingNumber);
-
+                                  currentGameState.currentNumber,
+                                  currentGameState.pendingNumber);
   const qreal spread = 80.0;
   qreal progress = incrementAnimator->progress();
-  int number = incrementAnimator->number;
-  int pending = incrementAnimator->pendingNumber;
 
   for (auto &character : incrementScalar.characters) {
     painter.setFont(QFont(painter.font().family(), character.fontSize));

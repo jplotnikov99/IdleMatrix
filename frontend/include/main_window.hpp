@@ -4,6 +4,7 @@
 #include "gamestate.hpp"
 #include <QPropertyAnimation>
 #include <QWidget>
+#include <QPushButton>
 
 class MainWindow : public QWidget {
   Q_OBJECT
@@ -21,4 +22,6 @@ protected:
 
 private:
   IncrementAnimator *incrementAnimator;
+  QPushButton *upgradeAdditionButton;
+  GameState currentGameState;
 };

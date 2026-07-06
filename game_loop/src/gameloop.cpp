@@ -13,13 +13,15 @@ void GameLoop::stop() {
   }
 }
 
-void GameLoop::tick() { 
-    static qint64 accumulatedTimeForIncrement = 0;
-    qint64 dt = elapsedTimer.restart();
-    accumulatedTimeForIncrement += dt;
+void GameLoop::tick() {
+  static qint64 accumulatedTimeForIncrement = 0;
+  qint64 dt = elapsedTimer.restart();
+  accumulatedTimeForIncrement += dt;
 
-    if (accumulatedTimeForIncrement >= gameState.incrementDelayInMs) {
-        accumulatedTimeForIncrement = 0;
-        emit stateUpdated(gameState);
-    }
+  if (accumulatedTimeForIncrement >= gameState.incrementDelayInMs) {
+    gameState.pendingNumber += gameState.additionNumber;
+    accumulatedTimeForIncrement = 0;
+    emit stateUpdated(gameState);
+    gameState.currentNumber = gameState.pendingNumber;
+  }
 }

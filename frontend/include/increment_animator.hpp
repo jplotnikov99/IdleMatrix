@@ -10,8 +10,6 @@ class IncrementAnimator : public QObject {
 public:
   explicit IncrementAnimator(QObject *parent = nullptr);
 
-  int number = 0;
-  int pendingNumber = 0;
   qreal m_progress = 0.0;
   bool isAnimating = false;
 
