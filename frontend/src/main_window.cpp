@@ -23,6 +23,12 @@ void MainWindow::onStateUpdated(const GameState &state) {
   incrementAnimator->increment(currentGameState);
 }
 
+void MainWindow::onUnlockAvailable(const QString &unlockName) {
+  if (unlockName == "Upgrade Addition") {
+    upgradeAdditionButton->show();
+  }
+}
+
 void MainWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
   QPainter painter(this);
@@ -55,4 +61,14 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   }
 
   painter.setOpacity(1.0);
+}
+
+MainWindow::~MainWindow() {
+  QString saveDir =
+      QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+  QDir().mkpath(saveDir); // ensure the directory exists
+  QString savePath = saveDir + "/savegame.json";
+  saveGameState(currentGameState, savePath);
+  delete incrementAnimator;
+  delete upgradeAdditionButton;
 }

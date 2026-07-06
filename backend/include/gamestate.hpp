@@ -1,5 +1,11 @@
 #pragma once
 
+#include <QJsonObject>
+#include <QFile>
+#include <QJsonDocument>
+#include <QStandardPaths>
+#include <QDir>
+
 struct GameState {
 public:
   GameState() = default;
@@ -8,9 +14,28 @@ public:
   int pendingNumber = 0;
   int additionNumber = 1;
 
-  long incrementDelayInMs = 1300;
-  
+  int incrementDelayInMs = 1300;
+
   bool upgradeAdditionUnlocked = false;
+
+  QJsonObject toJson() const {
+    QJsonObject obj;
+    obj["currentNumber"] = currentNumber;
+    obj["incrementDelayInMs"] = incrementDelayInMs;
+    return obj;
+  }
+
+  static GameState fromJson(const QJsonObject &obj) {
+    GameState state;
+    state.currentNumber = obj["currentNumber"].toInt();
+    state.pendingNumber = state.currentNumber; // Ensure pendingNumber is initialized
+    state.incrementDelayInMs = obj["incrementDelayInMs"].toInt();
+    return state;
+  }
 
   ~GameState() = default;
 };
+
+bool saveGameState(const GameState &state, const QString &filePath);
+
+bool loadGameState(GameState &outState, const QString &filePath);

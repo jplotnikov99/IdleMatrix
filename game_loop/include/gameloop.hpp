@@ -16,9 +16,12 @@ public slots:
   void start();
   void stop();
   void tick();
+  void checkForUnlock();
+  
 
 signals:
   void stateUpdated(const GameState &state);
+  void unlockAvailable(const QString &unlockName);
 
 private:
   GameState &gameState;

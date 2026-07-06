@@ -7,7 +7,16 @@
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
 
-  GameState gameState;
+  QString saveDir =
+      QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+  QDir().mkpath(saveDir); // ensure the directory exists
+  QString savePath = saveDir + "/savegame.json";
+
+  GameState gameState, loadedState;
+
+  if (loadGameState(loadedState, savePath)) {
+    gameState = loadedState;
+  }
 
   QThread gameLoopThread;
   GameLoop gameLoop(gameState);
@@ -19,6 +28,8 @@ int main(int argc, char *argv[]) {
                    &GameLoop::start);
   QObject::connect(&gameLoop, &GameLoop::stateUpdated, &window,
                    &MainWindow::onStateUpdated);
+  QObject::connect(&gameLoop, &GameLoop::unlockAvailable, &window,
+                   &MainWindow::onUnlockAvailable);
 
   gameLoopThread.start();
   window.show();

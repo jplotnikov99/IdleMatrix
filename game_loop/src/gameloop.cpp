@@ -19,9 +19,17 @@ void GameLoop::tick() {
   accumulatedTimeForIncrement += dt;
 
   if (accumulatedTimeForIncrement >= gameState.incrementDelayInMs) {
+    checkForUnlock();
     gameState.pendingNumber += gameState.additionNumber;
     accumulatedTimeForIncrement = 0;
     emit stateUpdated(gameState);
     gameState.currentNumber = gameState.pendingNumber;
+  }
+}
+
+void GameLoop::checkForUnlock() {
+  if (!gameState.upgradeAdditionUnlocked && gameState.currentNumber >= 10) {
+    gameState.upgradeAdditionUnlocked = true;
+    emit unlockAvailable("Upgrade Addition");
   }
 }

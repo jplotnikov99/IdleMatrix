@@ -12,10 +12,11 @@ class MainWindow : public QWidget {
 public:
   explicit MainWindow(QWidget *parent = nullptr);
 
-  ~MainWindow() = default;
+  ~MainWindow();
 
 public slots:
   void onStateUpdated(const GameState &state);
+  void onUnlockAvailable(const QString &unlockName);
 
 protected:
   void paintEvent(QPaintEvent *event) override;

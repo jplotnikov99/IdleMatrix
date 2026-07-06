@@ -10,3 +10,6 @@ add_library(backend
 target_include_directories(backend PUBLIC 
     ${backend_include_dir} 
 )
+
+
+target_link_libraries(backend PRIVATE Qt6::Core Qt6::Widgets)
