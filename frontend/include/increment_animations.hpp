@@ -17,7 +17,7 @@ struct PaintCharacter {
 class IncrementScalar {
 public:
   IncrementScalar(QPointF &center, qreal progress, int curNumber,
-                  int newNumber);
+                  int newNumber, int additionNumber);
 
   std::vector<PaintCharacter> characters;
   qreal spread = 80.0;

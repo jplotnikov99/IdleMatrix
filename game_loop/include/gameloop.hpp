@@ -17,6 +17,7 @@ public slots:
   void stop();
   void tick();
   void checkForUnlock();
+  void onUpgradeClicked(QString upgradeName);
   
 
 signals:

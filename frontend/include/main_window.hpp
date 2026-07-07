@@ -1,10 +1,10 @@
 #pragma once
 
-#include "increment_animator.hpp"
 #include "gamestate.hpp"
+#include "increment_animator.hpp"
 #include <QPropertyAnimation>
-#include <QWidget>
 #include <QPushButton>
+#include <QWidget>
 
 class MainWindow : public QWidget {
   Q_OBJECT
@@ -20,6 +20,9 @@ public slots:
 
 protected:
   void paintEvent(QPaintEvent *event) override;
+
+signals:
+  void upgradeClicked(QString upgradeName);
 
 private:
   IncrementAnimator *incrementAnimator;

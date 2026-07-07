@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
                    &MainWindow::onStateUpdated);
   QObject::connect(&gameLoop, &GameLoop::unlockAvailable, &window,
                    &MainWindow::onUnlockAvailable);
+  QObject::connect(&window, &MainWindow::upgradeClicked, &gameLoop,
+                   &GameLoop::onUpgradeClicked);
 
   gameLoopThread.start();
   window.show();

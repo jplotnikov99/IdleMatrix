@@ -1,9 +1,9 @@
 #include "increment_animations.hpp"
 
 IncrementScalar::IncrementScalar(QPointF &center, qreal progress, int curNumber,
-                                 int newNumber) {
+                                 int newNumber, int additionNumber) {
   characters.push_back({48, 1.0, QString::number(curNumber)});
-  characters.push_back({28, 1.0, "1"});
+  characters.push_back({28, 1.0, QString::number(additionNumber)});
   characters.push_back({48, 0., "+"});
   if (progress < 0.5) {
     qreal t = progress / 0.5;
