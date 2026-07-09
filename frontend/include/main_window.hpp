@@ -16,7 +16,7 @@ public:
 
 public slots:
   void onStateUpdated(const GameState &state);
-  void onUnlockAvailable(const QString &unlockName);
+  void onUpgradeUnlockAvailable(const QString &unlockName);
 
 protected:
   void paintEvent(QPaintEvent *event) override;

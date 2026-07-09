@@ -1,42 +1,51 @@
 #pragma once
 
-#include <QJsonObject>
+#include "datastructures.hpp"
+#include <QDir>
 #include <QFile>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QStandardPaths>
-#include <QDir>
+#include <qjsonobject.h>
+#include <qmap.h>
+#include <vector>
 
 struct GameState {
 public:
   GameState() = default;
 
-  int currentNumber = 0;
-  int pendingNumber = 0;
-  int additionNumber = 1;
-  int additionUpgradeCost = 10;
+  NumberData number;
+  std::vector<UpgradeData> upgrades;
 
   int incrementDelayInMs = 1300;
 
   bool shouldIncrement = true;
 
-  bool upgradeAdditionUnlocked = false;
-
   QJsonObject toJson() const {
     QJsonObject obj;
-    obj["currentNumber"] = currentNumber;
-    obj["additionNumber"] = additionNumber;
-    obj["additionUpgradeCost"] = additionUpgradeCost;
-    obj["incrementDelayInMs"] = incrementDelayInMs;
+
+    obj["number"] = number.toJson();
+
+    QJsonObject upgradesObj;
+    for (auto &it : upgrades) {
+      upgradesObj[it.name] = it.toJson();
+    }
+    obj["upgrades"] = upgradesObj;
+
     return obj;
   }
 
   static GameState fromJson(const QJsonObject &obj) {
     GameState state;
-    state.currentNumber = obj["currentNumber"].toInt();
-    state.pendingNumber = state.currentNumber; // Ensure pendingNumber is initialized
-    state.additionNumber = obj["additionNumber"].toInt();
-    state.additionUpgradeCost = obj["additionUpgradeCost"].toInt();
-    state.incrementDelayInMs = obj["incrementDelayInMs"].toInt();
+    state.number = NumberData::fromJson(obj["number"].toObject());
+
+    QJsonObject upgradesObj = obj["upgrades"].toObject();
+    for (auto it = upgradesObj.constBegin(); it != upgradesObj.constEnd();
+         ++it) {
+      state.upgrades.push_back(UpgradeData::fromJson(it.value().toObject()));
+    }
+    std::cout << state.upgrades.size() << "\n";
+
     return state;
   }
 

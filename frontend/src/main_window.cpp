@@ -16,21 +16,20 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   upgradeAdditionButton->setStyleSheet("background-color: #444; color: white; "
                                        "font-size: 16px; border-radius: 5px;");
   connect(upgradeAdditionButton, &QPushButton::clicked, this,
-          [this]() { emit upgradeClicked("Upgrade Addition"); });
-  upgradeAdditionButton->hide();
+          [this]() { emit upgradeClicked("Addition"); });
 }
 
 void MainWindow::onStateUpdated(const GameState &state) {
   currentGameState = state;
   upgradeAdditionButton->setText(
-      QString("+1\n%1").arg(state.additionUpgradeCost));
+      QString("+1\n%1").arg(state.upgrades[0].cost)); // TODO: Generalize upgrade button
   if (state.shouldIncrement) {
     incrementAnimator->increment(currentGameState);
   }
 }
 
-void MainWindow::onUnlockAvailable(const QString &unlockName) {
-  if (unlockName == "Upgrade Addition") {
+void MainWindow::onUpgradeUnlockAvailable(const QString &unlockName) {
+  if (unlockName == "Addition") {
     upgradeAdditionButton->show();
   }
 }
@@ -49,13 +48,13 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   if (!incrementAnimator->isAnimating) {
     painter.setFont(bigFont);
     painter.drawText(fullRect, Qt::AlignCenter,
-                     QString::number(currentGameState.currentNumber));
+                     QString::number(currentGameState.number.current));
     return;
   }
 
   IncrementScalar incrementScalar(
-      center, incrementAnimator->progress(), currentGameState.currentNumber,
-      currentGameState.pendingNumber, currentGameState.additionNumber);
+      center, incrementAnimator->progress(), currentGameState.number.current,
+      currentGameState.number.pending, currentGameState.upgrades[0].value); // TODO: This is only related to addition, generalize
   const qreal spread = 80.0;
   qreal progress = incrementAnimator->progress();
 

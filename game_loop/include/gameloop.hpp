@@ -1,5 +1,6 @@
 #pragma once
 
+#include "datastructures.hpp"
 #include "gamestate.hpp"
 #include <QElapsedTimer>
 #include <QObject>
@@ -9,20 +10,28 @@ class GameLoop : public QObject {
   Q_OBJECT
 public:
   explicit GameLoop(GameState &state, QObject *parent = nullptr)
-      : QObject(parent), gameState(state) {}
+      : QObject(parent), gameState(state) {
+    if (gameState.upgrades.size() == 0) {
+      gameState.number = NumberData{1, 1};
+      gameState.upgrades.push_back(
+          UpgradeData{"Addition", 1, 10, 0, 1, 1.2, true,
+                      [](int current, int value) { return current + value; }});
+      gameState.upgrades.push_back(
+          UpgradeData{"Tickspeed", 1, 100, 0, -10, 1.2, false});
+    }
+  }
   ~GameLoop() = default;
 
 public slots:
   void start();
   void stop();
   void tick();
-  void checkForUnlock();
+  void checkForUpgradeUnlock();
   void onUpgradeClicked(QString upgradeName);
-  
 
 signals:
   void stateUpdated(const GameState &state);
-  void unlockAvailable(const QString &unlockName);
+  void upgradeUnlockAvailable(const QString &unlockName);
 
 private:
   GameState &gameState;

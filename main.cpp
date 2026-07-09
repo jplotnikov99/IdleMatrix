@@ -28,8 +28,8 @@ int main(int argc, char *argv[]) {
                    &GameLoop::start);
   QObject::connect(&gameLoop, &GameLoop::stateUpdated, &window,
                    &MainWindow::onStateUpdated);
-  QObject::connect(&gameLoop, &GameLoop::unlockAvailable, &window,
-                   &MainWindow::onUnlockAvailable);
+  QObject::connect(&gameLoop, &GameLoop::upgradeUnlockAvailable, &window,
+                   &MainWindow::onUpgradeUnlockAvailable);
   QObject::connect(&window, &MainWindow::upgradeClicked, &gameLoop,
                    &GameLoop::onUpgradeClicked);
 
