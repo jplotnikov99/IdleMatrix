@@ -2,7 +2,6 @@
 
 #include <QJsonObject>
 #include <functional>
-#include <iostream>
 
 struct NumberData {
   int current = 0;
@@ -41,8 +40,6 @@ struct UpgradeData {
 
   int computePendingNumber(int currentNumber, int pendingNumber) const {
     if (unlocked) {
-      std::cout << name.toStdString() << "\n";
-      std::cout << value << "\n";
       return rule(currentNumber, value);
     }
     return pendingNumber;

@@ -44,7 +44,6 @@ public:
          ++it) {
       state.upgrades.push_back(UpgradeData::fromJson(it.value().toObject()));
     }
-    std::cout << state.upgrades.size() << "\n";
 
     return state;
   }
