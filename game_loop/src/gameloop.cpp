@@ -1,4 +1,5 @@
 #include "gameloop.hpp"
+#include "datastructures.hpp"
 #include "gamestate.hpp"
 
 void GameLoop::start() {
@@ -43,14 +44,17 @@ void GameLoop::checkForUpgradeUnlock() {
 }
 
 void GameLoop::onUpgradeClicked(QString upgradeName) {
-  for (auto &it : gameState.upgrades) {
-    if (upgradeName == it.name && gameState.number.current >= it.cost) {
-      it.value += it.valueIncreasePerUpgrade;
-      gameState.number.current -= it.cost;
-      gameState.number.pending = gameState.number.current + it.value;
-      it.cost = static_cast<int>(it.cost * it.costMultPerUpgrade);
-      gameState.shouldIncrement = false;
-      emit stateUpdated(gameState);
-    }
+  UpgradeData *clickedUpgrade = &gameState.upgrades[upgradeName];
+  if (gameState.number.current >= clickedUpgrade->cost) {
+    gameState.number.current -= clickedUpgrade->cost;
+    clickedUpgrade->value += clickedUpgrade->valueIncreasePerUpgrade;
+    gameState.number.pending = gameState.number.current + clickedUpgrade->value;
+
+    clickedUpgrade->cost = static_cast<int>(clickedUpgrade->cost *
+                                            clickedUpgrade->costMultPerUpgrade);
+    ++clickedUpgrade->level;
+
+    gameState.shouldIncrement = false;
+    emit stateUpdated(gameState);
   }
 }

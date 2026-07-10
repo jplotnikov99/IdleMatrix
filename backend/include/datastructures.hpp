@@ -25,7 +25,7 @@ struct UpgradeData {
   QString name;
   int value;
   int cost;
-  int numberOfUpgrades;
+  int level;
   int valueIncreasePerUpgrade;
   double costMultPerUpgrade;
   bool unlocked;
@@ -35,7 +35,7 @@ struct UpgradeData {
     obj["name"] = name;
     obj["value"] = value;
     obj["cost"] = cost;
-    obj["numberOfUpgrades"] = numberOfUpgrades;
+    obj["level"] = level;
     obj["valueIncreasePerUpgrade"] = valueIncreasePerUpgrade;
     obj["costMultPerUpgrade"] = costMultPerUpgrade;
     obj["unlocked"] = unlocked;
@@ -47,7 +47,7 @@ struct UpgradeData {
     data.name = obj["name"].toString();
     data.value = obj["value"].toInt();
     data.cost = obj["cost"].toInt();
-    data.numberOfUpgrades = obj["numberOfUpgrades"].toInt();
+    data.level = obj["level"].toInt();
     data.valueIncreasePerUpgrade = obj["valueIncreasePerUpgrade"].toInt();
     data.costMultPerUpgrade = obj["costMultPerUpgrade"].toDouble();
     data.unlocked = obj["unlocked"].toBool();

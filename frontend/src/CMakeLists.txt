@@ -2,12 +2,14 @@ qt6_wrap_cpp(MOC_FILES
     ../include/main_window.hpp
     ../include/increment_animator.hpp
     ../include/increment_animations.hpp
+    ../include/upgradebuttonwidget.hpp
 )
 
 add_library(frontend
     main_window.cpp
     increment_animator.cpp
     increment_animations.cpp
+    upgradebuttonwidget.cpp
     ${MOC_FILES}
 )
 

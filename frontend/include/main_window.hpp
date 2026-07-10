@@ -2,6 +2,7 @@
 
 #include "gamestate.hpp"
 #include "increment_animator.hpp"
+#include "upgradebuttonwidget.hpp"
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QWidget>
@@ -26,6 +27,6 @@ signals:
 
 private:
   IncrementAnimator *incrementAnimator;
-  QPushButton *upgradeAdditionButton;
+  UpgradeButtonWidget *upgradeAdditionButton;
   GameState currentGameState;
 };

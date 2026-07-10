@@ -1,5 +1,6 @@
 #include "main_window.hpp"
 #include "increment_animations.hpp"
+#include "upgradebuttonwidget.hpp"
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -11,18 +12,15 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   connect(incrementAnimator, &IncrementAnimator::animationStep, this,
           [this]() { update(); });
 
-  upgradeAdditionButton = new QPushButton("+1\n10", this);
-  upgradeAdditionButton->setGeometry(20, 20, 100, 50);
-  upgradeAdditionButton->setStyleSheet("background-color: #444; color: white; "
-                                       "font-size: 16px; border-radius: 5px;");
-  connect(upgradeAdditionButton, &QPushButton::clicked, this,
+  upgradeAdditionButton = new UpgradeButtonWidget("Addition", this);
+  upgradeAdditionButton->move(20, 20);
+  connect(upgradeAdditionButton, &UpgradeButtonWidget::clicked, this,
           [this]() { emit upgradeClicked("Addition"); });
 }
 
 void MainWindow::onStateUpdated(const GameState &state) {
   currentGameState = state;
-  upgradeAdditionButton->setText(
-      QString("+1\n%1").arg(state.upgrades["Addition"].cost));
+  upgradeAdditionButton->updateData(currentGameState.upgrades["Addition"]);
   if (state.shouldIncrement) {
     incrementAnimator->increment(currentGameState);
   }
