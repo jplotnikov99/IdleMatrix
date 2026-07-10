@@ -9,13 +9,13 @@
 class GameLoop : public QObject {
   Q_OBJECT
 public:
-  explicit GameLoop(GameState &state, QObject *parent = nullptr)
+  explicit GameLoop(GameState &state, const bool isLoaded,
+                    QObject *parent = nullptr)
       : QObject(parent), gameState(state) {
-    if (gameState.upgrades.size() == 0) {
+    if (!isLoaded) {
       gameState.number = NumberData{1, 1};
       gameState.upgrades.push_back(
-          UpgradeData{"Addition", 1, 10, 0, 1, 1.2, true,
-                      [](int current, int value) { return current + value; }});
+          UpgradeData{"Addition", 1, 10, 0, 1, 1.2, true});
       gameState.upgrades.push_back(
           UpgradeData{"Tickspeed", 1, 100, 0, -10, 1.2, false});
     }

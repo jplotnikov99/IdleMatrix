@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QJsonObject>
-#include <functional>
 
 struct NumberData {
   int current = 0;
@@ -22,11 +21,6 @@ struct NumberData {
   }
 };
 
-static const QMap<QString, std::function<int(int, int)>> kRuleRegistry = {
-    {"Addition", [](int c, int v) { return c + v; }},
-    {"Tickspeed", [](int c, int v) { return c * v; }},
-};
-
 struct UpgradeData {
   QString name;
   int value;
@@ -35,15 +29,6 @@ struct UpgradeData {
   int valueIncreasePerUpgrade;
   double costMultPerUpgrade;
   bool unlocked;
-
-  std::function<int(int, int)> rule;
-
-  int computePendingNumber(int currentNumber, int pendingNumber) const {
-    if (unlocked) {
-      return rule(currentNumber, value);
-    }
-    return pendingNumber;
-  }
 
   QJsonObject toJson() const {
     QJsonObject obj;
@@ -66,7 +51,6 @@ struct UpgradeData {
     data.valueIncreasePerUpgrade = obj["valueIncreasePerUpgrade"].toInt();
     data.costMultPerUpgrade = obj["costMultPerUpgrade"].toDouble();
     data.unlocked = obj["unlocked"].toBool();
-    data.rule = kRuleRegistry[data.name];
     return data;
   }
 };

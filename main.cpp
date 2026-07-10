@@ -14,12 +14,14 @@ int main(int argc, char *argv[]) {
 
   GameState gameState, loadedState;
 
-  if (loadGameState(loadedState, savePath)) {
+  bool isLoaded = loadGameState(loadedState, savePath);
+
+  if (isLoaded) {
     gameState = loadedState;
   }
 
   QThread gameLoopThread;
-  GameLoop gameLoop(gameState);
+  GameLoop gameLoop(gameState, isLoaded);
   gameLoop.moveToThread(&gameLoopThread);
 
   MainWindow window;
