@@ -23,8 +23,9 @@ void GameLoop::tick() {
     gameState.number.current = gameState.number.pending;
     checkForUpgradeUnlock();
 
-    gameState.number.pending = gameState.number.current + gameState.upgrades[0].value;
-    
+    gameState.number.pending =
+        gameState.number.current + gameState.upgrades["Addition"].value;
+
     accumulatedTimeForIncrement = 0;
     gameState.shouldIncrement = true;
 

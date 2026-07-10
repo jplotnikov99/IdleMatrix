@@ -14,10 +14,10 @@ public:
       : QObject(parent), gameState(state) {
     if (!isLoaded) {
       gameState.number = NumberData{1, 1};
-      gameState.upgrades.push_back(
-          UpgradeData{"Addition", 1, 10, 0, 1, 1.2, true});
-      gameState.upgrades.push_back(
-          UpgradeData{"Tickspeed", 1, 100, 0, -10, 1.2, false});
+      gameState.upgrades["Addition"] =
+          UpgradeData{"Addition", 1, 10, 0, 1, 1.2, true};
+      gameState.upgrades["Tickspeed"] =
+          UpgradeData{"Tickspeed", 1, 100, 0, -10, 1.2, false};
     }
   }
   ~GameLoop() = default;

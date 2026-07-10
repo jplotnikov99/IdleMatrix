@@ -8,14 +8,13 @@
 #include <QStandardPaths>
 #include <qjsonobject.h>
 #include <qmap.h>
-#include <vector>
 
 struct GameState {
 public:
   GameState() = default;
 
   NumberData number;
-  std::vector<UpgradeData> upgrades;
+  QMap<QString, UpgradeData> upgrades;
 
   int incrementDelayInMs = 1300;
 
@@ -27,8 +26,8 @@ public:
     obj["number"] = number.toJson();
 
     QJsonObject upgradesObj;
-    for (auto &it : upgrades) {
-      upgradesObj[it.name] = it.toJson();
+    for (auto it = upgrades.constBegin(); it != upgrades.constEnd(); ++it) {
+      upgradesObj[it.key()] = it.value().toJson();
     }
     obj["upgrades"] = upgradesObj;
 
@@ -42,7 +41,7 @@ public:
     QJsonObject upgradesObj = obj["upgrades"].toObject();
     for (auto it = upgradesObj.constBegin(); it != upgradesObj.constEnd();
          ++it) {
-      state.upgrades.push_back(UpgradeData::fromJson(it.value().toObject()));
+      state.upgrades[it.key()] = UpgradeData::fromJson(it.value().toObject());
     }
 
     return state;

@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 void MainWindow::onStateUpdated(const GameState &state) {
   currentGameState = state;
   upgradeAdditionButton->setText(
-      QString("+1\n%1").arg(state.upgrades[0].cost)); // TODO: Generalize upgrade button
+      QString("+1\n%1").arg(state.upgrades["Addition"].cost));
   if (state.shouldIncrement) {
     incrementAnimator->increment(currentGameState);
   }
@@ -52,9 +52,10 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     return;
   }
 
-  IncrementScalar incrementScalar(
-      center, incrementAnimator->progress(), currentGameState.number.current,
-      currentGameState.number.pending, currentGameState.upgrades[0].value); // TODO: This is only related to addition, generalize
+  IncrementScalar incrementScalar(center, incrementAnimator->progress(),
+                                  currentGameState.number.current,
+                                  currentGameState.number.pending,
+                                  currentGameState.upgrades["Addition"].value);
   const qreal spread = 80.0;
   qreal progress = incrementAnimator->progress();
 
