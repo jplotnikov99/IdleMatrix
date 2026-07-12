@@ -1,12 +1,16 @@
 #include "main_window.hpp"
+#include "fontmanager.hpp"
 #include "increment_animations.hpp"
 #include "upgradebuttonwidget.hpp"
+#include <QFontDatabase>
+#include <QImageReader>
 #include <QMouseEvent>
 #include <QPainter>
+#include <qpixmap.h>
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   resize(1000, 1000);
-  setStyleSheet("background-color: #222; color: white; font-family: Arial;");
+  paperTexture = QPixmap(":/textures/paper_texture.jpg");
 
   incrementAnimator = new IncrementAnimator(this);
   connect(incrementAnimator, &IncrementAnimator::animationStep, this,
@@ -37,8 +41,9 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
 
-  QFont bigFont = painter.font();
-  bigFont.setPointSize(48);
+  painter.drawPixmap(rect(), paperTexture, paperTexture.rect());
+
+  QFont bigFont(FontManager::inkFont(), 25);
 
   QRectF fullRect = rect();
   QPointF center = fullRect.center();
@@ -58,7 +63,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   qreal progress = incrementAnimator->progress();
 
   for (auto &character : incrementScalar.characters) {
-    painter.setFont(QFont(painter.font().family(), character.fontSize));
+    painter.setFont(QFont(FontManager::inkFont(), character.fontSize));
     painter.setOpacity(character.opacity);
     painter.drawText(QRectF(character.x, character.y, 200, 100),
                      Qt::AlignCenter, character.text);

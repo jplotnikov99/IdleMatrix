@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <file>textures/paper_texture.jpg</file>
+    <file>fonts/resources/Clagista.ttf</file>
+    <file>fonts/resources/JaneAusU.ttf</file>
+</qresource>
+</RCC>

@@ -1,4 +1,5 @@
 #include "upgradebuttonwidget.hpp"
+#include "fontmanager.hpp"
 #include <QStyle>
 #include <qglobal.h>
 
@@ -8,22 +9,34 @@ UpgradeButtonWidget::UpgradeButtonWidget(const QString &displayName,
   setObjectName("upgradeButton");
   setAttribute(Qt::WA_StyledBackground, true);
 
-  setFixedSize(160, 90);
+  setFixedSize(160, 160);
   setCursor(Qt::PointingHandCursor);
+
+  QString font = FontManager::inkFont();
 
   m_nameLabel = new QLabel(displayName, this);
   m_nameLabel->setStyleSheet(
-      "color: #aaa; font-size: 13px; font-weight: bold; letter-spacing: 1px;");
+      QString("color: #2b2b2b; font-size: 13px; font-weight: "
+              "bold; letter-spacing: 1px; font-family: '%1';")
+          .arg(font));
+
+  m_levelLabel = new QLabel("Lv. 1", this);
+  m_levelLabel->setStyleSheet(
+      QString("color: #2b2b2b; font-size: 13px; font-weight: "
+              "bold; letter-spacing: 1px; font-family: '%1';")
+          .arg(font));
 
   m_valueLabel = new QLabel("+1", this);
   m_valueLabel->setStyleSheet(
-      "color: white; font-size: 22px; font-weight: bold;");
+      QString("color: #2b2b2b; font-size: 15px; font-weight: "
+              "bold; letter-spacing: 1px; font-family: '%1';")
+          .arg(font));
 
   m_costLabel = new QLabel("Cost: 10", this);
-  m_costLabel->setStyleSheet("color: #05602b; font-size: 13px;");
-
-  m_levelLabel = new QLabel("Lv. 1", this);
-  m_levelLabel->setStyleSheet("color: #888; font-size: 13px;");
+  m_costLabel->setStyleSheet(
+      QString("color: #2b2b2b; font-size: 13px; font-weight: "
+              "bold; letter-spacing: 1px; font-family: '%1';")
+          .arg(font));
 
   auto *topRow = new QHBoxLayout();
   topRow->addWidget(m_nameLabel);
@@ -65,8 +78,9 @@ void UpgradeButtonWidget::leaveEvent(QEvent *event) {
 }
 
 void UpgradeButtonWidget::applyStyle(bool hovered) {
-  QString bg = hovered ? "#363636" : "#2c2c2c";
-  setStyleSheet(QString("#upgradeButton { background-color: %1; border: "
-                        "1px solid #ffffff; border-radius: 8px; }")
-                    .arg(bg));
+  QString border = hovered ? "#828080" : "#2b2b2b";
+  setStyleSheet(
+      QString("#upgradeButton { background-color: transparent; border: "
+              "1px solid %1; border-radius: 8px; }")
+          .arg(border));
 }

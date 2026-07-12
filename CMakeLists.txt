@@ -15,11 +15,19 @@ find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 set(backend_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/backend/include)
 set(frontend_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/frontend/include)
 set(gameLoop_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/game_loop/include)
+set(fontmanager_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/fonts)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/backend/src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/game_loop/src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/frontend/src)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fonts)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE backend frontend gameLoop Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    fontmanager 
+    backend 
+    frontend 
+    gameLoop 
+    Qt6::Widgets
+)

@@ -1,11 +1,16 @@
 #include "gameloop.hpp"
 #include "gamestate.hpp"
 #include "main_window.hpp"
+#include "fonts/fontmanager.hpp"
 #include <QApplication>
 #include <QThread>
 
 int main(int argc, char *argv[]) {
+  Q_INIT_RESOURCE(resources);
+
   QApplication app(argc, argv);
+
+  FontManager::loadFonts();
 
   QString saveDir =
       QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);

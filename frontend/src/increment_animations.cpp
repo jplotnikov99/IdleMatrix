@@ -6,9 +6,10 @@ IncrementScalar::IncrementScalar(QPointF &center, qreal progress, int curNumber,
   constexpr qreal outwardsTime = 0.8;
   constexpr qreal inwardsTime = 0.95;
 
-  characters.push_back({48, 1.0, QString::number(curNumber)});
-  characters.push_back({28, 1.0, QString::number(additionNumber)});
-  characters.push_back({48, 0., "+"});
+  characters.push_back({25, 1.0, QString::number(curNumber)});
+  characters.push_back({20, 1.0, QString::number(additionNumber)});
+  characters.push_back({25, 0., "+"});
+  characters.push_back({25, 0., QString::number(newNumber)});
   if (progress < outwardsTime) {
     qreal t = progress / outwardsTime;
 
@@ -35,15 +36,14 @@ IncrementScalar::IncrementScalar(QPointF &center, qreal progress, int curNumber,
     characters[2].x = center.x() - 100;
     characters[2].y = center.y() - 50;
   } else {
-    characters[0].x = center.x() - 100;
-    characters[0].y = center.y() - 50;
+    characters[0].opacity = 0;
 
     characters[1].opacity = 0;
-    characters[1].x = center.x() - 100;
-    characters[1].y = center.y() - 110;
 
     characters[2].opacity = 0;
-    characters[2].x = center.x() - 100;
-    characters[2].y = center.y() - 50;
+
+    characters[3].opacity = 1;
+    characters[3].x = center.x() - 100;
+    characters[3].y = center.y() - 50;
   }
 }

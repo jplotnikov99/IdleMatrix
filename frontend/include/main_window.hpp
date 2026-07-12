@@ -6,6 +6,7 @@
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QWidget>
+#include <qpixmap.h>
 
 class MainWindow : public QWidget {
   Q_OBJECT
@@ -26,6 +27,7 @@ signals:
   void upgradeClicked(QString upgradeName);
 
 private:
+  QPixmap paperTexture;
   IncrementAnimator *incrementAnimator;
   UpgradeButtonWidget *upgradeAdditionButton;
   GameState currentGameState;
